@@ -201,6 +201,8 @@ export default {
         const name = e.shape.get("name");
         const item = e.item;
 
+        console.log(name, item);
+
         if (name && name.startsWith("item")) {
           this.graph.updateItem(item, {
             selectedIndex: Number(name.split("-")[1]),
@@ -514,6 +516,7 @@ export default {
         }
         if (afterList) {
           afterList.forEach((e, i) => {
+            console.log(startIndex , i , selectedIndex);
             const isSelected =
               Math.floor(startIndex) + i === Number(selectedIndex);
             let { field = "", type } = e;
@@ -533,12 +536,12 @@ export default {
                 radius: 2,
                 cursor: "pointer",
                 //  ###### 插眼 ######
-                stroke: "#fea501"
+                stroke: isSelected ? "#fea501" : '#fff'
               },
               name: `item-${Math.floor(startIndex) + i}-content`,
               draggable: true,
             });
-            //字段图片
+            //图片
             listContainer.addShape("image", {
               attrs: {
                 x: width / 2 - (width * 0.9) / 2 + 3,
@@ -552,7 +555,7 @@ export default {
                     ? iconNumber
                     : iconDate,
               },
-              name: `item-${Math.floor(startIndex) + i}-content_line1`,
+              name: `item-${Math.floor(startIndex) + i}-content_image`,
               draggable: true,
             });
             //分割线
@@ -568,7 +571,7 @@ export default {
               draggable: true,
             });
 
-            if (!cfg.hideDot) {
+            if (!cfg.hideDot && isSelected) {
               //左边的圆圆
               listContainer.addShape("circle", {
                 attrs: {
